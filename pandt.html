@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Privacy Policy and Terms of Use for SEKRETS Podcast">
+    <meta property="og:title" content="SEKRETS - Privacy & Terms">
+    <meta property="og:description" content="Privacy Policy and Terms of Use for SEKRETS Podcast">
+    <meta property="og:url" content="https://www.sekretspodcast.com/pandt">
+    <meta property="og:type" content="website">
+    <title>Privacy & Terms - SEKRETS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.01) 35px, rgba(255,255,255,.01) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(255,255,255,.01) 35px, rgba(255,255,255,.01) 70px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #666666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #888;
+            font-weight: 300;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+        }
+
+        .back-link:hover {
+            color: #8833cc;
+        }
+
+        .content-section {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        @supports not (backdrop-filter: blur(20px)) {
+            .content-section {
+                background: rgba(26, 26, 26, 0.95);
+            }
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 25px;
+            color: #fff;
+            letter-spacing: 0.05em;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #daccff;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            color: #ccc;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .highlight {
+            color: #8833cc;
+            font-weight: 500;
+        }
+
+        .date {
+            color: #666;
+            font-size: 0.85rem;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: rgba(136, 51, 204, 0.1);
+            color: #daccff;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid rgba(136, 51, 204, 0.2);
+            font-weight: 500;
+        }
+
+        td {
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .key-points {
+            background: rgba(136, 51, 204, 0.05);
+            border-left: 3px solid #8833cc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .key-points li {
+            color: #daccff;
+            margin-bottom: 8px;
+        }
+
+        a {
+            color: #8833cc;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(136, 51, 204, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            border-bottom-color: #8833cc;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(136, 51, 204, 0.1);
+            margin-top: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        footer a {
+            color: #666;
+            text-decoration: none;
+            border-bottom: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #8833cc;
+            border-bottom-color: #8833cc;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            h3 {
+                font-size: 1.1rem;
+            }
+
+            .content-section {
+                padding: 30px 20px;
+            }
+
+            p, li {
+                font-size: 0.9rem;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            /* Make tables scrollable on mobile */
+            .table-wrapper {
+                overflow-x: auto;
+                margin: 20px -20px;
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to SEKRETS</a>
+        
+        <div class="header">
+            <h1>PRIVACY & TERMS</h1>
+            <p class="subtitle">How we protect your secrets and what you agree to</p>
+        </div>
+
+        <div class="content-section">
+            <h2>SEKRETS Privacy Policy</h2>
+            
+            <p class="date">(Last updated: 11 June 2025)</p>
+            
+            <p>SEKRETS Pty Ltd ("SEKRETS", "we", "our", "us") operates the <strong>SEKRETS Podcast</strong> and the travelling dictaphone project (the "Service"). We are committed to protecting your privacy and honouring the anonymity of all participants. This Privacy Policy explains how we collect, use, disclose, store and secure your personal information, and the rights you have in relation to that information.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>1. Key points at a glance</h3>
+            <div class="key-points">
+                <ul>
+                    <li><strong>Anonymous by design</strong> – We never intentionally link your voice recordings to your identity.</li>
+                    <li><strong>Your voice is biometric data</strong> – Voices can be recognised; consider altering your speech or omitting highly specific details.</li>
+                    <li><strong>Express consent</strong> – By recording, you expressly consent to our collection and use of your audio (sensitive information) for the purposes set out below.</li>
+                    <li><strong>You stay in control</strong> – You may access, correct or delete your data and lodge complaints with the OAIC.</li>
+                </ul>
+            </div>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>2. Who we are and contact details</h3>
+            <p><strong>Controller</strong>: SEKRETS Pty Ltd<br>
+            <strong>Postal address</strong>: PO BOX 32456, 26 Byron Street Bangalow NSW 2479, Australia<br>
+            <strong>Email</strong>: <a href="mailto:privacy@sekretspodcast.com">privacy@sekretspodcast.com</a><br>
+            <strong>Privacy Officer / Data Protection Officer</strong>: Nick Berry<br>
+            <strong>OAIC</strong>: You may also complain to the Office of the Australian Information Commissioner (<a href="http://www.oaic.gov.au" target="_blank">www.oaic.gov.au</a>).</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>3. Information we collect</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>What it includes</th>
+                            <th>Purpose</th>
+                            <th>Legal basis (APPs / GDPR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Audio Recordings</strong> (sensitive biometric information)</td>
+                            <td>Your recorded "secret"</td>
+                            <td>Editing and publishing anonymous content; future creative projects</td>
+                            <td>Consent (APP 3, GDPR Art 9(2)(a))</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Recorder Code</strong></td>
+                            <td>Alphanumeric code on the device</td>
+                            <td>Track the dictaphone's physical journey</td>
+                            <td>Legitimate interests / Consent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email (optional)</strong></td>
+                            <td>Address you provide</td>
+                            <td>Notify you when your episode is published</td>
+                            <td>Consent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Postcode (optional)</strong></td>
+                            <td>First part of your postcode</td>
+                            <td>Generate an anonymised map of the recorder's path</td>
+                            <td>Consent</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Website & App Analytics</strong></td>
+                            <td>IP address (truncated), device type, pages visited, cookies (see §10)</td>
+                            <td>Improve the Service</td>
+                            <td>Legitimate interests</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p>We do <strong>not knowingly collect data from children under 18</strong>. If we learn we have inadvertently collected a minor's recording, we will delete it and, where feasible, notify a parent/guardian.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>4. How we use your information</h3>
+            <ol>
+                <li><strong>Create and publish content</strong> – We edit recordings for length, clarity and legal compliance, apply filters where needed, and publish them anonymously across podcast platforms, social media and future media formats.</li>
+                <li><strong>Notify you</strong> – If you provided an email, we send a single notice when your episode goes live.</li>
+                <li><strong>Visualise the journey</strong> – Postcodes create a pin-map showing where the recorder has travelled.</li>
+                <li><strong>Analytics & security</strong> – We analyse usage to maintain and secure the Service.</li>
+            </ol>
+            
+            <p>We <strong>never sell or rent</strong> your personal information.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>5. International transfers & subprocessors</h3>
+            <p>The Service is hosted on Netlify and Siteground, and we engage reputable third-party processors for transcription and analytics (listed at sekretspodcast.com/subprocessors). Where data is transferred overseas we rely on Standard Contractual Clauses and APP 8 safeguards.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>6. Data retention schedule</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Retention period</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Audio files</td>
+                            <td>5 years from publication, then deleted or de-identified</td>
+                        </tr>
+                        <tr>
+                            <td>Emails</td>
+                            <td>Retained indefinitely until you unsubscribe or request deletion</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>7. Your privacy rights</h3>
+            <p>Under Australian Privacy Principles and, where applicable, the GDPR, you have the right to:</p>
+            <ul>
+                <li><strong>Access</strong> – Request a copy of your personal information we hold</li>
+                <li><strong>Correction</strong> – Request we correct inaccurate or incomplete data</li>
+                <li><strong>Deletion</strong> – Request deletion of your personal data (subject to legal obligations)</li>
+                <li><strong>Portability</strong> – Receive your data in a structured, machine-readable format</li>
+                <li><strong>Object</strong> – Object to processing based on legitimate interests</li>
+                <li><strong>Restrict</strong> – Request we limit processing in certain circumstances</li>
+                <li><strong>Withdraw consent</strong> – Where processing is based on consent, you may withdraw it at any time</li>
+            </ul>
+            <p>To exercise these rights, email <a href="mailto:privacy@sekretspodcast.com">privacy@sekretspodcast.com</a> with proof of identity. We will respond within 30 days (or 1 month under GDPR).</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>8. Security measures</h3>
+            <p>We implement appropriate technical and organisational measures to protect your data, including:</p>
+            <ul>
+                <li>Industry-standard encryption (TLS/SSL) for data in transit</li>
+                <li>Encrypted storage for audio files and personal information</li>
+                <li>Access controls limiting data access to authorised personnel only</li>
+                <li>Regular security audits and vulnerability assessments</li>
+                <li>Incident response procedures for potential breaches</li>
+                <li>Secure deletion protocols for expired data</li>
+            </ul>
+            <p>In the event of a data breach that poses serious harm, we will notify affected individuals and the OAIC within 72 hours as required by the Notifiable Data Breaches scheme.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>9. Third-party sharing</h3>
+            <p>We may share your information with:</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Purpose</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Service providers</strong></td>
+                            <td>To operate and improve the Service</td>
+                            <td>Hosting (Netlify, Siteground), email delivery, analytics</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Podcast platforms</strong></td>
+                            <td>To distribute episodes</td>
+                            <td>Apple Podcasts, Spotify, Google Podcasts</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Legal authorities</strong></td>
+                            <td>When required by law</td>
+                            <td>Courts, law enforcement (with valid warrant)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Business transfers</strong></td>
+                            <td>If SEKRETS is acquired or merged</td>
+                            <td>Subject to this Privacy Policy continuing to apply</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>We <strong>never</strong> sell your personal information to third parties.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>10. Cookies and tracking technologies</h3>
+            <p>We use the following cookies and similar technologies:</p>
+            <ul>
+                <li><strong>Essential cookies</strong> – Required for the website to function (e.g., security, form submissions)</li>
+                <li><strong>Analytics cookies</strong> – Help us understand usage patterns (Google Analytics with IP anonymisation)</li>
+                <li><strong>Preference cookies</strong> – Remember your settings and choices</li>
+            </ul>
+            <p>You can control cookies through your browser settings. Disabling essential cookies may impact Service functionality. We do not use advertising or cross-site tracking cookies.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>11. Changes to this Privacy Policy</h3>
+            <p>We may update this Privacy Policy to reflect changes in our practices or legal requirements. When we make material changes:</p>
+            <ul>
+                <li>We will update the "Last updated" date at the top</li>
+                <li>For significant changes affecting your rights, we will notify you via email (if provided) or prominent website notice</li>
+                <li>Continued use of the Service after changes constitutes acceptance</li>
+            </ul>
+            <p>We encourage you to review this Privacy Policy periodically. Previous versions are available upon request.</p>
+
+            <hr style="margin: 30px 0; border: none; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+
+            <h3>12. Governing law and dispute resolution</h3>
+            <p>This Privacy Policy is governed by the laws of New South Wales, Australia. Any disputes shall be resolved through:</p>
+            <ol>
+                <li><strong>Internal complaint</strong> – Contact our Privacy Officer first</li>
+                <li><strong>OAIC mediation</strong> – If unresolved, lodge a complaint with the OAIC</li>
+                <li><strong>Legal proceedings</strong> – As a last resort, in the courts of New South Wales</li>
+            </ol>
+            <p>For EU residents, you also have the right to lodge a complaint with your local data protection authority.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Terms of Use</h2>
+            
+            <p class="date">(Last updated: 11 June 2025)</p>
+            
+            <div class="key-points">
+                <p><strong>⚠️ IMPORTANT: READ CAREFULLY BEFORE PARTICIPATING</strong></p>
+                <p>By recording or submitting content to SEKRETS, you enter a legally binding agreement. If you do not agree to ALL terms, do not participate.</p>
+            </div>
+
+            <h3>1. Acceptance of Terms</h3>
+            <p>By (a) recording audio on a SEKRETS device, (b) submitting content via our website, or (c) accessing our Service, you unconditionally accept these Terms. These Terms constitute the entire agreement between you and SEKRETS Pty Ltd, superseding all prior agreements.</p>
+
+            <h3>2. Eligibility</h3>
+            <p>You represent and warrant that:</p>
+            <ul>
+                <li>You are at least 18 years old</li>
+                <li>You have the legal capacity to enter binding contracts</li>
+                <li>You are not prohibited by law from using the Service</li>
+                <li>You are participating voluntarily without coercion</li>
+                <li>You are of sound mind and capable of informed consent</li>
+            </ul>
+            <p><strong>Violation of age requirements may result in criminal prosecution for providing false information.</strong></p>
+
+            <h3>3. Grant of Rights</h3>
+            <p>You grant SEKRETS Pty Ltd and its successors:</p>
+            <ul>
+                <li>An <strong>irrevocable, perpetual, worldwide, royalty-free, fully paid-up, non-exclusive license</strong> to use, reproduce, modify, adapt, publish, translate, create derivative works from, distribute, perform, and display your content in any media format</li>
+                <li>The right to sublicense these rights to third parties</li>
+                <li>The right to use your content for commercial purposes</li>
+                <li>Moral rights waiver to the fullest extent permitted by law</li>
+            </ul>
+            <p>This license survives termination of these Terms and is binding on your heirs and assigns.</p>
+
+            <h3>4. Content Warranties</h3>
+            <p>You represent and warrant that your content:</p>
+            <ul>
+                <li>Is entirely your own original work</li>
+                <li>Does not infringe any third party's intellectual property, privacy, or other rights</li>
+                <li>Contains no defamatory, libelous, or unlawful material</li>
+                <li>Does not violate any confidentiality agreement or court order</li>
+                <li>Does not identify any person without their written consent</li>
+                <li>Does not contain admissions of serious criminal conduct that could endanger others</li>
+                <li>Is truthful to the best of your knowledge</li>
+            </ul>
+
+            <h3>5. Prohibited Content</h3>
+            <p>You must NOT submit content that:</p>
+            <ul>
+                <li>Admits to ongoing criminal activity or plans for future crimes</li>
+                <li>Identifies victims of crimes or vulnerable individuals</li>
+                <li>Contains hate speech, discrimination, or incites violence</li>
+                <li>Includes confidential information you're legally bound to protect</li>
+                <li>Violates court orders, including suppression orders or gag orders</li>
+                <li>Contains false accusations against identifiable persons</li>
+                <li>Includes content involving minors in any inappropriate context</li>
+            </ul>
+
+            <h3>6. Voice Recognition and Anonymity</h3>
+            <p><strong>CRITICAL WARNING:</strong> You acknowledge and accept that:</p>
+            <ul>
+                <li>Voice is biometric data that can identify you</li>
+                <li>People who know you may recognize your voice or story details</li>
+                <li>Voice alteration technology exists but is not foolproof</li>
+                <li>You assume ALL RISK of being identified</li>
+                <li>SEKRETS has NO OBLIGATION to alter or disguise your voice</li>
+                <li>You waive all claims related to unintended identification</li>
+            </ul>
+
+            <h3>7. LIMITATION OF LIABILITY</h3>
+            <p><strong>TO THE MAXIMUM EXTENT PERMITTED BY LAW:</strong></p>
+            <ul>
+                <li>SEKRETS IS PROVIDED "AS IS" WITHOUT ANY WARRANTIES</li>
+                <li>WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED</li>
+                <li>WE ARE NOT LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES</li>
+                <li>WE ARE NOT LIABLE FOR EMOTIONAL DISTRESS, REPUTATIONAL HARM, OR RELATIONSHIP DAMAGE</li>
+                <li>OUR TOTAL LIABILITY SHALL NOT EXCEED AUD $100</li>
+                <li>THESE LIMITATIONS APPLY EVEN IF WE KNEW OF POSSIBLE DAMAGES</li>
+            </ul>
+
+            <h3>8. INDEMNIFICATION</h3>
+            <p>You agree to indemnify, defend, and hold harmless SEKRETS Pty Ltd, its officers, directors, employees, agents, and affiliates from ANY claims, damages, losses, liabilities, costs, and expenses (including legal fees) arising from:</p>
+            <ul>
+                <li>Your breach of these Terms</li>
+                <li>Your content or participation</li>
+                <li>Any third-party claims related to your content</li>
+                <li>Your violation of any law or rights of others</li>
+                <li>Someone recognizing your voice or story</li>
+            </ul>
+
+            <h3>9. Mandatory Reporting</h3>
+            <p>You acknowledge that we may be legally required to report certain content to authorities, including:</p>
+            <ul>
+                <li>Admissions of serious crimes against children</li>
+                <li>Ongoing danger to identifiable persons</li>
+                <li>Terrorism-related content</li>
+                <li>Court-ordered disclosures</li>
+            </ul>
+            <p>By participating, you consent to such disclosures where legally required.</p>
+
+            <h3>10. Termination</h3>
+            <p>We may terminate your access or remove content at any time, for any reason, without notice. Rights granted to us survive termination indefinitely.</p>
+
+            <h3>11. Dispute Resolution</h3>
+            <p>Any disputes must be resolved through:</p>
+            <ol>
+                <li>Good faith negotiation (30 days)</li>
+                <li>Binding arbitration under ACICA rules</li>
+                <li>Individual claims only - CLASS ACTIONS WAIVED</li>
+            </ol>
+
+            <h3>12. General Provisions</h3>
+            <ul>
+                <li><strong>Governing Law:</strong> Laws of New South Wales, Australia</li>
+                <li><strong>Venue:</strong> Courts of New South Wales</li>
+                <li><strong>Severability:</strong> Invalid provisions shall be severed</li>
+                <li><strong>Force Majeure:</strong> No liability for acts beyond our control</li>
+                <li><strong>Assignment:</strong> We may assign these Terms; you may not</li>
+                <li><strong>Waiver:</strong> No waiver unless in writing</li>
+            </ul>
+
+            <h3>13. Special Warnings</h3>
+            <div class="key-points" style="background: rgba(204, 0, 0, 0.05); border-left-color: #cc0000;">
+                <p><strong>⚠️ PARTICIPATION MAY RESULT IN:</strong></p>
+                <ul>
+                    <li>Unintended recognition by family, friends, or employers</li>
+                    <li>Emotional distress from hearing others' secrets</li>
+                    <li>Legal consequences if content involves crimes</li>
+                    <li>Relationship damage if secrets are recognized</li>
+                    <li>Professional consequences if identified</li>
+                </ul>
+                <p><strong>SEEK INDEPENDENT LEGAL ADVICE IF UNSURE</strong></p>
+            </div>
+
+            <h3>Contact Information</h3>
+            <p>For any questions about these Terms:<br>
+            <strong>Email:</strong> <a href="mailto:legal@sekretspodcast.com">legal@sekretspodcast.com</a><br>
+            <strong>Post:</strong> PO BOX 32456, 26 Byron Street Bangalow NSW 2479</p>
+
+            <p style="margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                <strong>BY PARTICIPATING IN SEKRETS, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THESE TERMS OF USE AND OUR PRIVACY POLICY.</strong>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            Copyright 2025 SEKRETS Podcast | Created by Nick Berry | 
+            <a href="/">Home</a>
+        </p>
+    </footer>
+</body>
+</html>
