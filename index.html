@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEKRETS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.01) 35px, rgba(255,255,255,.01) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(255,255,255,.01) 35px, rgba(255,255,255,.01) 70px);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #666666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #888;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Fallback for browsers that don't support backdrop-filter */
+        @supports not (backdrop-filter: blur(10px)) {
+            .video-container {
+                background: rgba(26, 26, 26, 0.95);
+            }
+        }
+
+        .video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(42, 42, 42, 0.9) 100%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            background: linear-gradient(135deg, rgba(34, 34, 34, 0.9) 0%, rgba(51, 51, 51, 0.9) 100%);
+        }
+
+        .play-button {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-placeholder:hover .play-button {
+            transform: scale(1.1);
+            background: rgba(136, 51, 204, 0.15);
+            box-shadow: 0 12px 40px rgba(136, 51, 204, 0.2);
+            border-color: rgba(136, 51, 204, 0.3);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 22px solid #fff;
+            border-top: 13px solid transparent;
+            border-bottom: 13px solid transparent;
+            margin-left: 4px;
+        }
+
+        /* Glass morphism for all content sections */
+        .instructions-section,
+        .form-section,
+        .faq-section,
+        .share-section {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 40px 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* Fallback for browsers that don't support backdrop-filter */
+        @supports not (backdrop-filter: blur(20px)) {
+            .instructions-section,
+            .form-section,
+            .faq-section,
+            .share-section {
+                background: rgba(26, 26, 26, 0.95);
+            }
+        }
+
+        .instructions-section {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.35s forwards;
+        }
+
+        .form-section {
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.45s forwards;
+        }
+
+        .faq-section {
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.55s forwards;
+        }
+
+        .share-section {
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.65s forwards;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .form-header p {
+            color: #888;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #aaa;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px; /* Prevents zoom on iOS */
+            transition: all 0.3s ease;
+            font-family: inherit;
+            -webkit-appearance: none;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: rgba(136, 51, 204, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(136, 51, 204, 0.1);
+        }
+
+        input::placeholder {
+            color: #555;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #fff 0%, #ddd 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+            -webkit-tap-highlight-color: transparent;
+            min-height: 52px; /* Better touch target */
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(136, 51, 204, 0.2);
+            background: linear-gradient(135deg, #fff 0%, #f0e6ff 100%);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(136, 51, 204, 0.2);
+        }
+
+        /* Step buttons with hover effects */
+        .step-button {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 25px;
+            color: #ccc;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: default;
+            min-height: 44px; /* Better touch target */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-button:hover {
+            background: rgba(136, 51, 204, 0.1);
+            border-color: rgba(136, 51, 204, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(136, 51, 204, 0.2);
+        }
+
+        /* FAQ items with better interactivity */
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+            padding: 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 60px; /* Better touch target */
+        }
+
+        .faq-question:hover {
+            color: #daccff;
+            padding-left: 15px;
+        }
+
+        .faq-arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer p, .faq-answer div {
+            padding: 0 10px 20px 10px;
+        }
+
+        .faq-answer ul {
+            padding-left: 30px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 12px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+
+            .video-container {
+                margin-bottom: 50px;
+                border-radius: 8px;
+            }
+
+            .instructions-section,
+            .form-section,
+            .faq-section,
+            .share-section {
+                padding: 30px 20px;
+                border-radius: 12px;
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
+
+            .form-header h2 {
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            .form-header p {
+                font-size: 0.85rem;
+            }
+
+            .step-button {
+                font-size: 0.8rem;
+                padding: 10px 14px;
+                margin-bottom: 8px;
+            }
+
+            .faq-question {
+                font-size: 0.9rem;
+                padding: 18px 8px;
+            }
+
+            .faq-answer {
+                font-size: 0.85rem;
+            }
+
+            /* Improved footer spacing on mobile */
+            footer {
+                padding: 30px 15px !important;
+                font-size: 0.8rem !important;
+                line-height: 1.6 !important;
+            }
+
+            /* Better button text on mobile */
+            .submit-button {
+                font-size: 0.95rem;
+                padding: 16px;
+            }
+
+            /* Instructions text smaller on mobile */
+            .instructions-section p {
+                font-size: 0.85rem;
+            }
+
+            /* Mobile-specific helper text */
+            p[style*="color: #888"] {
+                font-size: 0.85rem !important;
+            }
+
+            p[style*="color: #666"] {
+                font-size: 0.7rem !important;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .video-container:hover,
+            .instructions-section:hover,
+            .form-section:hover,
+            .faq-section:hover,
+            .share-section:hover {
+                transform: none;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .step-button:hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: rgba(255, 255, 255, 0.2);
+                transform: none;
+                box-shadow: none;
+            }
+
+            .submit-button:hover {
+                transform: none;
+                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+                background: linear-gradient(135deg, #fff 0%, #ddd 100%);
+            }
+
+            .faq-question:hover {
+                color: #fff;
+                padding-left: 10px;
+            }
+
+            input:hover {
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        a {
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #8833cc !important;
+            border-bottom-color: #8833cc !important;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(136, 51, 204, 0.2);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(136, 51, 204, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(136, 51, 204, 0);
+            }
+        }
+
+        /* Ensure smooth scrolling on iOS */
+        html {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Fix for iOS input zoom */
+        @media screen and (max-width: 768px) {
+            input[type="text"],
+            input[type="email"],
+            input[type="tel"],
+            input[type="number"],
+            input[type="password"],
+            textarea,
+            select {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SEKRETS</h1>
+            <p class="subtitle">Share your secret. Pass the recorder.</p>
+        </div>
+
+        <div class="video-container">
+            <div class="video-placeholder">
+                <div class="play-button pulse">
+                    <div class="play-icon"></div>
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align: center; color: #888; font-size: 0.95rem; margin-top: -40px; margin-bottom: 60px; opacity: 0; animation: fadeInUp 1s ease-out 0.3s forwards;">
+            Received the recorder? Scroll down. Just curious? Hit play.
+        </p>
+
+        <div class="instructions-section">
+            <div class="form-header">
+                <h2>Got the Recorder? Do This</h2>
+            </div>
+            
+            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 25px;">
+                <div class="step-button">1. Turn it on</div>
+                <div class="step-button">2. Press RECORD</div>
+                <div class="step-button">3. Tell your secret (max. 1hr)</div>
+                <div class="step-button">4. Press STOP</div>
+                <div class="step-button">5. Turn off</div>
+            </div>
+            
+            <p style="color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px;">
+                Postage is already paid. Take one stamp and one address label from the pouch, write a new random address, stick the new label on, stick the new stamp over the old stamp, and drop the package in any Australia Post box within 48 hours.
+            </p>
+            
+            <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">
+                If you're the 25th recording, slide the recorder into the reply-paid envelope and mail it back.
+            </p>
+        </div>
+
+        <div class="form-section">
+            <div class="form-header">
+                <h2>Follow the Story</h2>
+                <p>Enter the information below to show the recorder's journey, and be notified when your episode is live.</p>
+            </div>
+            
+            <form id="participantForm" data-netlify="true" netlify-honeypot="bot-field" name="follow-story" method="POST">
+                <input type="hidden" name="form-name" value="follow-story">
+                <p style="display:none">
+                    <label>Don't fill this out: <input name="bot-field"></label>
+                </p>
+                <div class="form-group">
+                    <label for="recorderCode"><strong>Recorder Code</strong></label>
+                    <p style="color: #666; font-size: 0.8rem; margin-top: -5px; margin-bottom: 8px;">(Enter the 6 digit code on the back of your recorder to log receipt)</p>
+                    <input type="text" id="recorderCode" name="recorderCode" placeholder="123456" inputmode="numeric">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><strong>Email</strong></label>
+                    <p style="color: #666; font-size: 0.8rem; margin-top: -5px; margin-bottom: 8px;">(Optional, used only to send you the finished episode)</p>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" inputmode="email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="postCode"><strong>Post Code</strong></label>
+                    <p style="color: #666; font-size: 0.8rem; margin-top: -5px; margin-bottom: 8px;">(Optional, just to plot the recorder's journey)</p>
+                    <input type="text" id="postCode" name="postCode" placeholder="2000" inputmode="numeric">
+                </div>
+                
+                <button type="submit" class="submit-button">JOIN THE JOURNEY</button>
+            </form>
+            
+            <p style="color: #666; font-size: 0.75rem; line-height: 1.5; margin-top: 20px; text-align: center;">
+                By submitting, you grant SEKRETS Podcast permission to edit and publish your audio—anonymously—in the SEKRETS podcast, on social media, and in future projects. Your voice is never linked to personally identifiable information.
+            </p>
+        </div>
+
+        <div class="faq-section">
+            <h2 style="text-align: center; font-size: 1.5rem; font-weight: 300; margin-bottom: 30px; letter-spacing: 0.05em;">Frequently Asked Questions</h2>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>What should I talk about?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div style="color: #888; font-size: 0.9rem; line-height: 1.6;">
+                            <p style="margin-bottom: 15px;">One true thing you've never shared - here are some topics to help:</p>
+                            <ul style="list-style: disc; margin-left: 20px; line-height: 1.8;">
+                                <li>A lie you still carry</li>
+                                <li>A hidden act of kindness no one knows about</li>
+                                <li>Your biggest regret</li>
+                                <li>A secret crush or love you never confessed</li>
+                                <li>Money guilt (debt, windfall, theft)</li>
+                                <li>A private doubt about your faith or worldview</li>
+                                <li>A fear you've never voiced aloud</li>
+                                <li>A dream you quietly gave up on</li>
+                                <li>Something you're proud of but can't tell anyone</li>
+                                <li>The moment you realised you were different</li>
+                                <li>Forbidden love / secret affair</li>
+                                <li>Money mischief (cash you stole, hid, or gambled away)</li>
+                                <li>Near-miss disaster or scandal that almost blew up your life</li>
+                                <li>Cold revenge you served without anyone suspecting</li>
+                                <li>An experience that will always haunt you</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>Should I use my name?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">That's up to you. Anonymity lets people speak freely.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>Is it really free?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">Yes. Every leg is prepaid.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>What if I can't post it within 48 hours?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">No worries, if you're able drop us a quick email at hello@sekretspodcast.com.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>What if a confession is illegal?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">We edit or discard recordings that endanger anyone or break the law.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>Who's behind SEKRETS?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">Nick Berry, who is exploring why we keep secrets and how stories travel.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span><strong>Who do I contact if I have a question?</strong></span>
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">Please email hello@sekretspodcast.com with any questions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="share-section">
+            <div class="form-header">
+                <h2>How Do I Share My Secret?</h2>
+                <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">Haven't received a recorder but have a story to share? Enter your email and a recorder just might find its way to you...</p>
+            </div>
+            
+            <form id="requestForm">
+                <div class="form-group">
+                    <label for="requestEmail"><strong>Email</strong></label>
+                    <input type="email" id="requestEmail" name="requestEmail" placeholder="your@email.com" required inputmode="email">
+                </div>
+                
+                <button type="submit" class="submit-button">LET ME PLAY TOO</button>
+            </form>
+        </div>
+    </div>
+    
+    <footer style="text-align: center; padding: 40px 20px; color: #666; font-size: 0.85rem; border-top: 1px solid rgba(136, 51, 204, 0.1); margin-top: 60px; opacity: 0; animation: fadeInUp 1s ease-out 0.85s forwards;">
+        <p>
+            Copyright 2025 SEKRETS Podcast | Created by Nick Berry | 
+            <a href="https://www.sekretspodcast.com/pandt" style="color: #666; text-decoration: none; border-bottom: 1px solid #333; transition: all 0.3s ease;">Privacy & Terms</a> | 
+            <a href="https://www.sekretspodcast.com/press" style="color: #666; text-decoration: none; border-bottom: 1px solid #333; transition: all 0.3s ease;">Press</a>
+        </p>
+    </footer>
+
+    <script>
+        // Form submission handler
+        document.getElementById('participantForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const recorderCode = document.getElementById('recorderCode').value;
+            const email = document.getElementById('email').value;
+            const postCode = document.getElementById('postCode').value;
+            
+            // Here you would normally send this data to your server
+            console.log('Form submitted:', { recorderCode, email, postCode });
+            
+            // Show success message
+            const button = document.querySelector('.submit-button');
+            button.textContent = 'THANK YOU FOR JOINING';
+            button.style.background = 'linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)';
+            button.disabled = true;
+            
+            // Reset form
+            setTimeout(() => {
+                document.getElementById('participantForm').reset();
+                button.textContent = 'JOIN THE JOURNEY';
+                button.style.background = 'linear-gradient(135deg, #fff 0%, #ddd 100%)';
+                button.disabled = false;
+            }, 3000);
+        });
+
+        // Video placeholder click handler
+        document.querySelector('.video-placeholder').addEventListener('click', function() {
+            // This is where you'd implement video playback
+            console.log('Video clicked - implement video player here');
+        });
+
+        // Add subtle floating animation to elements
+        setTimeout(() => {
+            document.querySelector('.play-button').style.animation = 'pulse 2s infinite, float 3s ease-in-out infinite';
+        }, 1500);
+
+        // Add float keyframe
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const arrow = button.querySelector('.faq-arrow');
+                const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer').forEach(otherAnswer => {
+                    otherAnswer.style.maxHeight = '0';
+                });
+                document.querySelectorAll('.faq-arrow').forEach(otherArrow => {
+                    otherArrow.style.transform = 'rotate(0deg)';
+                    otherArrow.style.color = '';
+                });
+                
+                // Toggle current FAQ
+                if (!isOpen) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    arrow.style.transform = 'rotate(180deg)';
+                    arrow.style.color = '#8833cc';
+                } else {
+                    arrow.style.color = '';
+                }
+            });
+        });
+
+        // Request form submission handler
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('requestEmail').value;
+            
+            // Here you would normally send this data to your server
+            console.log('Request form submitted:', { email });
+            
+            // Show success message
+            const button = e.target.querySelector('.submit-button');
+            button.textContent = 'REQUEST RECEIVED';
+            button.style.background = 'linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)';
+            button.disabled = true;
+            
+            // Reset form
+            setTimeout(() => {
+                document.getElementById('requestForm').reset();
+                button.textContent = 'LET ME PLAY TOO';
+                button.style.background = 'linear-gradient(135deg, #fff 0%, #ddd 100%)';
+                button.disabled = false;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
