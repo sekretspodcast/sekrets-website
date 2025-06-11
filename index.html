@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Share your secret anonymously. A social experiment exploring why we keep secrets and how stories travel.">
+    <meta property="og:title" content="SEKRETS - Share Your Secret">
+    <meta property="og:description" content="Share your secret anonymously. A social experiment exploring why we keep secrets and how stories travel.">
+    <meta property="og:url" content="https://www.sekretspodcast.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <title>SEKRETS</title>
     <style>
         * {
@@ -577,7 +583,7 @@
                 <p>Enter the information below to show the recorder's journey, and be notified when your episode is live.</p>
             </div>
             
-            <form id="participantForm" data-netlify="true" netlify-honeypot="bot-field" name="follow-story" method="POST">
+            <form id="participantForm" netlify netlify-honeypot="bot-field" name="follow-story" method="POST" action="/?success=true#follow-story">
                 <input type="hidden" name="form-name" value="follow-story">
                 <p style="display:none">
                     <label>Don't fill this out: <input name="bot-field"></label>
@@ -709,7 +715,11 @@
                 <p style="color: #888; font-size: 0.9rem; line-height: 1.6;">Haven't received a recorder but have a story to share? Enter your email and a recorder just might find its way to you...</p>
             </div>
             
-            <form id="requestForm">
+            <form id="requestForm" netlify netlify-honeypot="bot-field" name="request-recorder" method="POST" action="/?success=true#request-recorder">
+                <input type="hidden" name="form-name" value="request-recorder">
+                <p style="display:none">
+                    <label>Don't fill this out: <input name="bot-field"></label>
+                </p>
                 <div class="form-group">
                     <label for="requestEmail"><strong>Email</strong></label>
                     <input type="email" id="requestEmail" name="requestEmail" placeholder="your@email.com" required inputmode="email">
@@ -731,30 +741,45 @@
     <script>
         // Form submission handler
         document.getElementById('participantForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Don't prevent default - let Netlify handle the submission
             
-            // Get form values
-            const recorderCode = document.getElementById('recorderCode').value;
-            const email = document.getElementById('email').value;
-            const postCode = document.getElementById('postCode').value;
-            
-            // Here you would normally send this data to your server
-            console.log('Form submitted:', { recorderCode, email, postCode });
-            
-            // Show success message
-            const button = document.querySelector('.submit-button');
-            button.textContent = 'THANK YOU FOR JOINING';
-            button.style.background = 'linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)';
+            // Show immediate feedback
+            const button = this.querySelector('.submit-button');
+            button.textContent = 'SUBMITTING...';
             button.disabled = true;
-            
-            // Reset form
-            setTimeout(() => {
-                document.getElementById('participantForm').reset();
-                button.textContent = 'JOIN THE JOURNEY';
-                button.style.background = 'linear-gradient(135deg, #fff 0%, #ddd 100%)';
-                button.disabled = false;
-            }, 3000);
         });
+
+        // Handle form success with URL parameters
+        if (window.location.search.includes('success=true')) {
+            // Check which form was submitted based on hash
+            if (window.location.hash === '#follow-story') {
+                const button = document.querySelector('#participantForm .submit-button');
+                button.textContent = 'THANK YOU FOR JOINING';
+                button.style.background = 'linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    button.textContent = 'JOIN THE JOURNEY';
+                    button.style.background = 'linear-gradient(135deg, #fff 0%, #ddd 100%)';
+                    button.disabled = false;
+                    // Remove success parameter from URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 3000);
+            } else if (window.location.hash === '#request-recorder') {
+                const button = document.querySelector('#requestForm .submit-button');
+                button.textContent = 'REQUEST RECEIVED';
+                button.style.background = 'linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    button.textContent = 'LET ME PLAY TOO';
+                    button.style.background = 'linear-gradient(135deg, #fff 0%, #ddd 100%)';
+                    button.disabled = false;
+                    // Remove success parameter from URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 3000);
+            }
+        }
 
         // Video placeholder click handler
         document.querySelector('.video-placeholder').addEventListener('click', function() {
@@ -806,27 +831,12 @@
 
         // Request form submission handler
         document.getElementById('requestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Don't prevent default - let Netlify handle the submission
             
-            // Get form values
-            const email = document.getElementById('requestEmail').value;
-            
-            // Here you would normally send this data to your server
-            console.log('Request form submitted:', { email });
-            
-            // Show success message
-            const button = e.target.querySelector('.submit-button');
-            button.textContent = 'REQUEST RECEIVED';
-            button.style.background = 'linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%)';
+            // Show immediate feedback
+            const button = this.querySelector('.submit-button');
+            button.textContent = 'SUBMITTING...';
             button.disabled = true;
-            
-            // Reset form
-            setTimeout(() => {
-                document.getElementById('requestForm').reset();
-                button.textContent = 'LET ME PLAY TOO';
-                button.style.background = 'linear-gradient(135deg, #fff 0%, #ddd 100%)';
-                button.disabled = false;
-            }, 3000);
         });
     </script>
 </body>
